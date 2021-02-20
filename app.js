@@ -10,7 +10,6 @@ async function commentsParse(fileName){
         .split('\r\n')                                                                                    
         .map((val, i, arr)=>{
             val = val.split(':');
-
         /// build object structure
             return {                                                                                       
                 id: i+1,
@@ -22,17 +21,14 @@ async function commentsParse(fileName){
 
     /// find parent comments for items
     const parentIdFider = (items) => {
-        
         items.forEach(item => {  
             if (item.path.length === 1) item.pid = null
             else {  
                     /// get parent id by comaparing paths
-                    item.pid = items.find(isParentItem => {
-                        
+                    item.pid = items.find(isParentItem => {           
                         const itemPath = JSON.stringify(item.path.filter((el, i)=>i!=1));
                         const isParentItemPath = JSON.stringify(isParentItem.path);
                         return item.path[1] == isParentItem.author && itemPath === isParentItemPath
-
                 }).id;
             }
         });
@@ -44,7 +40,6 @@ async function commentsParse(fileName){
 
     /// build tree structure
     const commentsTree = (items, id) => {
-        
         items.forEach(item => {
             if (item.pid == id) {
                let spaces = item.path.length == 1 ? '' : ' '.repeat((item.path.length-1) * 2) + '|-';
@@ -56,7 +51,6 @@ async function commentsParse(fileName){
     commentsTree(comments, null);
     
     fs.writeFile('output.txt', output);
-
 }
 
 commentsParse("input.txt").catch(console.error);

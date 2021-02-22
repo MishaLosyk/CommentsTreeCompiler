@@ -7,7 +7,7 @@ async function commentsParse(fileName){
      
     /// parse comments from text
     const comments = input                                                                                                                                
-        .split('\r\n')                                                                                    
+        .split('\n')                                                                                    
         .map((val, i, arr)=>{
             val = val.split(':');
         /// build object structure
@@ -17,8 +17,7 @@ async function commentsParse(fileName){
                 author: val[0],
                 comment: val[val.length-1]
             };
-        });
-
+        });  
     /// find parent comments for items
     const parentIdFider = (items) => {
         items.forEach(item => {  
@@ -49,6 +48,8 @@ async function commentsParse(fileName){
         };
 
     commentsTree(comments, null);
+
+    console.log(output);
     
     fs.writeFile('output.txt', output);
 }
